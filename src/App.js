@@ -1,23 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useContext, useState } from "react";
+import ConfigContext from "./components/context/ConfigContext";
+import PaymentContext from "./components//context/PaymentContext";
+import CreditCardStrategy from "./components//strategies/CreditCardStrategy";
+import PayPalStrategy from "./components//strategies/PayPalStrategy";
+import UpiStrategy from "./components/strategies/UpiStrategy";
+
+import Header from "./components/Header";
 
 function App() {
+  const { paymentMethod, country, currency } = useContext(ConfigContext);
+  const [paymentResult, setPaymentResult] = useState("");
+
+  const handlePayment = (amount) => {
+    let strategy;
+
+    switch (paymentMethod) {
+      case "creditCard":
+        strategy = new CreditCardStrategy();
+        break;
+      case "paypal":
+        strategy = new PayPalStrategy();
+        break;
+      case "upi":
+        strategy = new UpiStrategy();
+        break;
+      default:
+        throw new Error(`Unsupported payment method: ${paymentMethod}`);
+    }
+
+    const context = new PaymentContext(strategy);
+    const result = context.executePayment(amount);
+    setPaymentResult(result);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <Header />
+
+      <h2>Country Configuration</h2>
+      <p>
+        <strong>Country:</strong> {country}
+      </p>
+      <p>
+        <strong>Currency:</strong> {currency}
+      </p>
+      <p>
+        <strong>Payment Method:</strong> {paymentMethod}
+      </p>
+
+      <button onClick={() => handlePayment(100)}>Pay 100 {currency}</button>
+
+      {paymentResult && (
+        <p style={{ marginTop: "1rem", color: "green" }}>
+          Result: {paymentResult}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      )}
     </div>
   );
 }
