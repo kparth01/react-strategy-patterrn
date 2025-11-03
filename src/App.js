@@ -1,10 +1,10 @@
 // src/App.js
 import React, { useContext, useState } from "react";
-import ConfigContext from "./components/context/ConfigContext";
-import PaymentContext from "./components//context/PaymentContext";
-import CreditCardStrategy from "./components//strategies/CreditCardStrategy";
-import PayPalStrategy from "./components//strategies/PayPalStrategy";
-import UpiStrategy from "./components/strategies/UpiStrategy";
+import ConfigContext from "./context/ConfigContext";
+import PaymentContext from "./context/PaymentContext";
+import CreditCardStrategy from "./strategies/CreditCardStrategy";
+import PayPalStrategy from "./strategies/PayPalStrategy";
+import UpiStrategy from "./strategies/UpiStrategy";
 
 import Header from "./components/Header";
 

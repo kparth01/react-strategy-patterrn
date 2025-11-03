@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import ConfigContext from "./context/ConfigContext";
+import ConfigContext from "../context/ConfigContext";
 
 function Header() {
   const { country, currency } = useContext(ConfigContext);
